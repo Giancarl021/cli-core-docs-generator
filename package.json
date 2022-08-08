@@ -19,9 +19,14 @@
         "start": "node lib/index.js",
         "prestart": "yarn build",
         "build": "tsc",
+        "git-add": "git add .",
         "prepublishOnly": "yarn build"
     },
-    "pre-commit": [ "format", "build" ],
+    "pre-commit": [
+        "format",
+        "build",
+        "git-add"
+    ],
     "dependencies": {
         "@giancarl021/cli-core": "^0.1.3",
         "@giancarl021/locate": "^0.1.6"

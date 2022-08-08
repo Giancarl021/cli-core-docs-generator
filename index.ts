@@ -30,5 +30,5 @@ async function main() {
 const commandPromise = main();
 
 if (DEBUG_MODE) {
-                commandPromise.then(console.log).catch(console.error);
+    commandPromise.then(console.log).catch(console.error);
 }
