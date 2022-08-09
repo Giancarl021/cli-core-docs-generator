@@ -14,7 +14,7 @@
         "cli-core-docs-generator": "lib/index.js"
     },
     "scripts": {
-        "dev": "ts-node index.ts",
+        "dev": "CCDG_DEBUG=true ts-node index.ts",
         "format": "prettier -w --config .prettierrc --ignore-path .gitignore .",
         "start": "node lib/index.js",
         "prestart": "yarn build",

@@ -1,7 +1,9 @@
+#!/usr/bin/env node
 import CliCore from '@giancarl021/cli-core';
 import { Behavior } from '@giancarl021/cli-core/interfaces';
 
 import * as commands from './src/commands';
+import help from './src/util/help.json';
 
 const APP_NAME = 'cli-core-docs-generator';
 const DEBUG_MODE = String(process.env.CCDG_DEBUG).toLowerCase() === 'true';
@@ -22,7 +24,9 @@ async function main() {
                 helpFlags: ['?', 'h', 'help']
             }
         },
-        behavior
+        behavior,
+        commands,
+        help
     });
 
     return await runner.run();

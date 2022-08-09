@@ -8,24 +8,24 @@ export interface FlattenedFlagsDescriptor {
 }
 
 export interface FlattenedCommandDescriptor {
+    isParent: false;
     description: string;
     args: ArgDescriptor[];
     flags: FlattenedFlagsDescriptor;
 }
 
+export type FlattenedParentOrChildCommandDescriptor =
+    | FlattenedParentCommandDescriptor
+    | FlattenedCommandDescriptor;
+
 export interface FlattenedParentCommandDescriptor {
     description?: string;
-    subcommands: {
-        [commandName: string]:
-            | FlattenedParentCommandDescriptor
-            | FlattenedCommandDescriptor;
-    };
+    isParent: true;
+    subcommands: FlattenedHelpDescriptor;
 }
 
 interface FlattenedHelpDescriptor {
-    [commandName: string]:
-        | FlattenedParentCommandDescriptor
-        | FlattenedCommandDescriptor;
+    [commandName: string]: FlattenedParentOrChildCommandDescriptor;
 }
 
 export default FlattenedHelpDescriptor;

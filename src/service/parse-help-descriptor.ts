@@ -103,6 +103,7 @@ function parseCommand(command: any): CommandData {
     if (typeof command === 'string') {
         const data: FlattenedCommandDescriptor = {
             description: command,
+            isParent: false,
             args: [],
             flags: {}
         };
@@ -119,13 +120,15 @@ function parseCommand(command: any): CommandData {
             if (!isValidParentCommand(command.subcommands)) throw error;
             const data: FlattenedParentCommandDescriptor = {
                 description: command.description,
-                subcommands: command.subcommands.map(parseCommand)
+                isParent: true,
+                subcommands: parseHelpDescriptor(command.subcommands)
             };
 
             result = data;
         } else {
             const data: FlattenedCommandDescriptor = {
                 description: command.description,
+                isParent: false,
                 args: parseArgs(command.args),
                 flags: parseFlags(command.flags)
             };
@@ -137,13 +140,18 @@ function parseCommand(command: any): CommandData {
     return result;
 }
 
-export default function (data: any): FlattenedHelpDescriptor {
+export default function parseHelpDescriptor(
+    data: any
+): FlattenedHelpDescriptor {
     const result: FlattenedHelpDescriptor = {};
+    const _data = { ...data };
 
-    if (!isValidParentCommand(data)) throw error;
+    if (_data.hasOwnProperty('$schema')) delete _data['$schema'];
 
-    for (const commandName in data) {
-        const command = data[commandName];
+    if (!isValidParentCommand(_data)) throw error;
+
+    for (const commandName in _data) {
+        const command = _data[commandName];
 
         result[commandName] = parseCommand(command);
     }
