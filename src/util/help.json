@@ -1,1 +1,62 @@
-{}
+{
+    "$schema": "https://gist.githubusercontent.com/Giancarl021/127020c9cecb032beff587e308bec4ca/raw/af14cd087c7f3f2f1b1d6a6daec6f82699a44973/@giancarl021__cli-core__help-descriptor.schema.json",
+    "generate": {
+        "args": ["app-name", "path/to/help-descriptor"],
+        "description": "Generates documentation files in Markdown format using a help descriptor file of a @giancarl021/cli-core project",
+        "flags": {
+            "output-directory": {
+                "aliases": ["output-dir", "o"],
+                "description": "The output directory where the main file will be written. If omitted will use the current working directory",
+                "optional": true,
+                "values": ["<path/to/output-directory>"]
+            },
+            "auxiliary-directory": {
+                "aliases": ["auxiliary-dir", "a"],
+                "description": "The output directory where the auxiliary files will be written. If omitted will use <current working directory>/docs",
+                "optional": true,
+                "values": ["<path/to/auxiliary-directory>"]
+            },
+            "flat": {
+                "description": "Generates only a single file with all the documentation. If omitted will be false",
+                "optional": true
+            },
+            "force": {
+                "aliases": ["f"],
+                "description": "If the auxiliary directory already exists, delete before generation. If omitted will be false and throw an error if the directory already exists",
+                "optional": true
+            },
+            "flag-prefix": {
+                "description": "The prefix for flags. If omitted will be '--'",
+                "optional": true,
+                "values": ["<flag-prefix>"]
+            },
+            "single-character-flag-prefix": {
+                "description": "The prefix for single character flags. If omitted will be '-'",
+                "optional": true,
+                "values": ["<single-character-flag-prefix>"]
+            }
+        }
+    },
+    "tree": {
+        "description": "Prints the tree of commands of a @giancarl021/cli-core project using a help descriptor file",
+        "args": ["path/to/help-descriptor"],
+        "flags": {
+            "app-name": {
+                "aliases": ["n"],
+                "description": "The name of the application. If omitted will be '@giancarl021/cli-core app'",
+                "optional": true,
+                "values": ["<app-name>"]
+            },
+            "json": {
+                "aliases": ["j"],
+                "description": "Prints the result tree in JSON format. If omitted will be false",
+                "optional": true
+            },
+            "description": {
+                "aliases": ["d"],
+                "description": "Includes the description of each command in the resulting tree. If omitted will be false",
+                "optional": true
+            }
+        }
+    }
+}
