@@ -29,7 +29,8 @@
     ],
     "dependencies": {
         "@giancarl021/cli-core": "^0.1.3",
-        "@giancarl021/locate": "^0.1.6"
+        "@giancarl021/locate": "^0.1.6",
+        "oo-ascii-tree": "^1.65.0"
     },
     "devDependencies": {
         "@types/node": "^18.6.4",

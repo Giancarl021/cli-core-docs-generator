@@ -1,13 +1,12 @@
 import { dirname, join } from 'path';
 import { existsSync as exists } from 'fs';
-import { readFile, writeFile, mkdir, rm } from 'fs/promises';
+import { writeFile, mkdir, rm } from 'fs/promises';
 import locate from '@giancarl021/locate';
 import { Command } from '@giancarl021/cli-core/interfaces';
-import { FlattenedHelpDescriptor } from '../interfaces';
 
-import parseHelpDescriptor from '../service/parse-help-descriptor';
 import convertToMarkdown from '../service/convert-to-markdown';
 import constants from '../util/constants';
+import readHelpDescriptor from '../util/read-help-descriptor';
 
 const command: Command = async function (args) {
     const [appName, file] = args;
@@ -53,17 +52,7 @@ const command: Command = async function (args) {
             );
     }
 
-    const content = await readFile(path, 'utf8');
-    let data: FlattenedHelpDescriptor;
-
-    try {
-        const _data = JSON.parse(content);
-        data = parseHelpDescriptor(_data);
-    } catch (err) {
-        throw new Error(
-            'Invalid help descriptor file: ' + (err as Error).message
-        );
-    }
+    const data = await readHelpDescriptor(path);
 
     const files = await convertToMarkdown({
         appName,
