@@ -211,10 +211,10 @@ export async function convertMainFile(
 
         while (context.common.files.length) {
             const file = context.common.files.shift()!;
-            innerContent += file.content.replace(
-                /^#+\s/gm,
-                (match) =>
-                    `##${new Array(file.depth).fill('#').join('')}${match}`
+            innerContent += file.content.replace(/^#+\s(.+)\n/gm, (match) =>
+                file.depth > 2
+                    ? `**${match.replace(/#/g, '').trim()}**\n`
+                    : `##${new Array(file.depth).fill('#').join('')}${match}`
             );
         }
 
