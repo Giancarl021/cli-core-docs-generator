@@ -8,6 +8,7 @@ interface ConverterOptions {
     flagPrefix: string;
     singleCharacterFlagPrefix: string;
     flat: boolean;
+    overwrite: boolean;
 }
 
 export default ConverterOptions;

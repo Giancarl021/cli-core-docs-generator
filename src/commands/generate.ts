@@ -1,6 +1,6 @@
 import { dirname, join } from 'path';
 import { existsSync as exists } from 'fs';
-import { readFile, writeFile, mkdir } from 'fs/promises';
+import { readFile, writeFile, mkdir, rm } from 'fs/promises';
 import locate from '@giancarl021/locate';
 import { Command } from '@giancarl021/cli-core/interfaces';
 import { FlattenedHelpDescriptor } from '../interfaces';
@@ -33,6 +33,7 @@ const command: Command = async function (args) {
     );
 
     const flat = this.helpers.hasFlag('flat');
+    const force = this.helpers.hasFlag('force', 'f');
 
     const flagPrefix = this.helpers.valueOrDefault(
         this.helpers.getFlag('flag-prefix'),
@@ -43,6 +44,14 @@ const command: Command = async function (args) {
         this.helpers.getFlag('single-character-flag-prefix'),
         constants.flags.defaultSingleCharacterFlagPrefix
     );
+
+    if (exists(auxiliaryDir)) {
+        if (force) await rm(auxiliaryDir, { recursive: true });
+        else
+            throw new Error(
+                `${constants.outputDir.auxiliary} directory already exists. Use --force to overwrite.`
+            );
+    }
 
     const content = await readFile(path, 'utf8');
     let data: FlattenedHelpDescriptor;
@@ -63,7 +72,8 @@ const command: Command = async function (args) {
         auxiliaryDir,
         flagPrefix,
         singleCharacterFlagPrefix,
-        flat
+        flat,
+        overwrite: force
     });
 
     for (const file of files) {

@@ -11,6 +11,8 @@ import {
     FlattenedParentCommandDescriptor
 } from '../interfaces';
 
+import constants from './constants';
+
 function deepen(
     context: ConverterRecursionContext,
     commandName: string
@@ -95,7 +97,6 @@ function createParentCommandMarkdownContent(
     command: FlattenedParentCommandDescriptor,
     context: ConverterRecursionContext
 ) {
-    console.log(context.variables.depth, commandName);
     return `# ${commandName}${
         command.description ? `\n\n${command.description}` : ''
     }
@@ -185,7 +186,9 @@ export async function convertMainFile(
     context: ConverterRecursionContext,
     descriptor: FlattenedHelpDescriptor
 ): Promise<DocFile> {
-    const path = locate(context.constants.outputDir.main + '/README.md');
+    const path = locate(
+        `${context.constants.outputDir.main}/${constants.mainFile.name}`
+    );
 
     const initialContent = exists(path)
         ? await readFile(path, 'utf8')

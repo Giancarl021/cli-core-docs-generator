@@ -1,9 +1,13 @@
+import { existsSync as exists } from 'fs';
 import {
     DocFile,
     ConverterOptions,
     ConverterRecursionContext
 } from '../interfaces';
+
 import { convertCommand, convertMainFile } from '../util/converter-utils';
+
+import constants from '../util/constants';
 
 export default async function (options: ConverterOptions): Promise<DocFile[]> {
     const context: ConverterRecursionContext = {
@@ -28,9 +32,15 @@ export default async function (options: ConverterOptions): Promise<DocFile[]> {
         }
     };
 
-    context.common.files.push(
-        await convertMainFile(context, options.descriptor)
-    );
+    const mainFile = await convertMainFile(context, options.descriptor);
+
+    if (exists(mainFile.path) && !options.overwrite) {
+        throw new Error(
+            `${constants.mainFile.name} file already exists. Use --force to overwrite.`
+        );
+    }
+
+    context.common.files.push(mainFile);
 
     if (!options.flat) {
         context.variables.depth++;
