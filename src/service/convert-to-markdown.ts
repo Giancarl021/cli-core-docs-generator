@@ -34,12 +34,6 @@ export default async function (options: ConverterOptions): Promise<DocFile[]> {
 
     const mainFile = await convertMainFile(context, options.descriptor);
 
-    if (exists(mainFile.path) && !options.overwrite) {
-        throw new Error(
-            `${constants.mainFile.name} file already exists. Use --force to overwrite.`
-        );
-    }
-
     context.common.files.push(mainFile);
 
     if (!options.flat) {
