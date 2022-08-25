@@ -9,7 +9,7 @@ export default async function (options: ConverterOptions): Promise<DocFile[]> {
     const context: ConverterRecursionContext = {
         constants: {
             appName: options.appName,
-            maxDepth: options.depth,
+            isFlat: options.flat,
             outputDir: {
                 main: options.outputDir,
                 auxiliary: options.auxiliaryDir
@@ -32,7 +32,7 @@ export default async function (options: ConverterOptions): Promise<DocFile[]> {
         await convertMainFile(context, options.descriptor)
     );
 
-    if (options.depth && options.depth > 0) {
+    if (!options.flat) {
         context.variables.depth++;
         for (const commandName in options.descriptor) {
             const command = options.descriptor[commandName];

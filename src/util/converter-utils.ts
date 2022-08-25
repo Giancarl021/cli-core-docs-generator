@@ -101,8 +101,7 @@ function createParentCommandMarkdownContent(
     }
 
 ${
-    context.constants.maxDepth === null ||
-    context.variables.depth <= context.constants.maxDepth
+    !context.constants.isFlat
         ? `## Subcommands
 
 ${createRefs(deepen(context, commandName), command.subcommands)}`
@@ -201,7 +200,7 @@ export async function convertMainFile(
 
     let innerContent = '';
 
-    if (context.constants.maxDepth === null || context.constants.maxDepth > 0) {
+    if (!context.constants.isFlat) {
         innerContent = createRefs(context, descriptor);
     } else {
         for (const commandName in descriptor) {

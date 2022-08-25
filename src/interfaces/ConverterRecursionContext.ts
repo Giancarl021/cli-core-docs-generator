@@ -3,7 +3,7 @@ import DocFile from './DocFile';
 interface ConverterRecursionContext {
     constants: {
         appName: string;
-        maxDepth: number | null;
+        isFlat: boolean;
         outputDir: {
             main: string;
             auxiliary: string;

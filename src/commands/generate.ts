@@ -32,21 +32,7 @@ const command: Command = async function (args) {
         true
     );
 
-    const depthString = this.helpers.valueOrDefault(
-        this.helpers.getFlag('depth', 'd'),
-        constants.depth.default
-    );
-    let depth: number | null;
-
-    if (isNaN(Number(depthString))) depth = null;
-    else depth = Number(depthString);
-
-    if (constants.depth.maximum && depth && depth > constants.depth.maximum)
-        throw new Error(`Depth must be less than ${constants.depth.maximum}`);
-    if (depth && depth < constants.depth.minimum)
-        throw new Error(
-            `Depth must be greater then ${constants.depth.minimum}`
-        );
+    const flat = this.helpers.hasFlag('flat');
 
     const flagPrefix = this.helpers.valueOrDefault(
         this.helpers.getFlag('flag-prefix'),
@@ -77,7 +63,7 @@ const command: Command = async function (args) {
         auxiliaryDir,
         flagPrefix,
         singleCharacterFlagPrefix,
-        depth
+        flat
     });
 
     for (const file of files) {
