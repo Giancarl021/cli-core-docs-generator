@@ -10,6 +10,12 @@ You can install this package globally on [NPM](https://www.npmjs.com/package/@gi
 
 ## Usage
 
+The entrypoint is the following:
+
+```bash
+cli-core-docs-generator <command>
+```
+
 ### Commands
 
 [//]: # 'Insert any custom documentation ABOVE this line'
