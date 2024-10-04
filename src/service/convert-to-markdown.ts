@@ -1,4 +1,3 @@
-import { existsSync as exists } from 'fs';
 import {
     DocFile,
     ConverterOptions,
@@ -6,8 +5,6 @@ import {
 } from '../interfaces';
 
 import { convertCommand, convertMainFile } from '../util/converter-utils';
-
-import constants from '../util/constants';
 
 export default async function (options: ConverterOptions): Promise<DocFile[]> {
     const context: ConverterRecursionContext = {

@@ -16,6 +16,8 @@ async function main() {
         behavior.returnResult = true;
     }
 
+    delete (help as any)['$schema'];
+
     const runner = CliCore(APP_NAME, {
         appDescription:
             'Generate Markdown files from a help descriptor file of a cli-core project',

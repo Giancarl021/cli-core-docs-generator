@@ -1,6 +1,6 @@
 {
     "name": "@giancarl021/cli-core-docs-generator",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "description": "Generate Markdown files from a help descriptor file of a cli-core project",
     "main": "lib/index.js",
     "repository": "https://github.com/Giancarl021/cli-core-docs-generator.git",
@@ -14,8 +14,9 @@
         "cli-core-docs-generator": "lib/index.js"
     },
     "scripts": {
-        "dev": "CCDG_DEBUG=true ts-node index.ts",
+        "dev": "cross-env CCDG_DEBUG=true ts-node index.ts",
         "format": "prettier -w --config .prettierrc --ignore-path .gitignore .",
+        "docs": "yarn dev generate cli-core-docs-generator ./src/util/help.json -o .github -a .github/docs -f",
         "start": "node lib/index.js",
         "prestart": "yarn build",
         "build": "tsc",
@@ -29,15 +30,16 @@
     ],
     "dependencies": {
         "@giancarl021/cli-core": "^0.1.3",
-        "@giancarl021/locate": "^0.1.6",
-        "oo-ascii-tree": "^1.65.0"
+        "@giancarl021/locate": "^0.1.7",
+        "oo-ascii-tree": "^1.103.1"
     },
     "devDependencies": {
-        "@types/node": "^18.6.4",
+        "@types/node": "^18.19.54",
+        "cross-env": "^7.0.3",
         "pre-commit": "^1.2.2",
-        "prettier": "^2.7.1",
-        "ts-node": "^10.9.1",
-        "typescript": "^4.7.4"
+        "prettier": "^2.8.8",
+        "ts-node": "^10.9.2",
+        "typescript": "^4.9.5"
     },
     "keywords": [
         "cli",

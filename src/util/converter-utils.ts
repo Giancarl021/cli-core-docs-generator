@@ -1,6 +1,7 @@
 import { ArgDescriptor } from '@giancarl021/cli-core/interfaces';
 import { existsSync as exists } from 'fs';
 import { readFile } from 'fs/promises';
+import { relative } from 'path';
 import locate from '@giancarl021/locate';
 import {
     ConverterRecursionContext,
@@ -117,12 +118,12 @@ function createRefs(
 ): string {
     const items: string[] = [];
     for (const commandName in descriptor) {
-        const relativePath = `${
-            context.variables.depth === 0
-                ? context.constants.outputDir.auxiliary.split(/\\|\//g).pop() +
-                  '/'
-                : ''
-        }${context.variables.commandChain.join('-')}-${commandName}.md`;
+        const relativePath = relative(
+            context.constants.outputDir.main,
+            `${
+                context.constants.outputDir.auxiliary
+            }/${context.variables.commandChain.join('-')}-${commandName}.md`
+        );
         const command = descriptor[commandName];
         items.push(
             `* [${commandName}](${relativePath}): ${command.description}`
@@ -224,7 +225,7 @@ export async function convertMainFile(
     }
 
     const content = initialContent.replace(
-        /\[\/\/\]:\s#\s\(DOCS_START\)(.|\n)*\[\/\/\]:\s#\s\(DOCS_END\)/gm,
+        /\[\/\/\]:\s#\s(\(|')DOCS_START(\)|')(.|\r?\n)*\[\/\/\]:\s#\s(\(|')DOCS_END(\)|')/gm,
         `[//]: # (DOCS_START)\n\n${innerContent}\n\n[//]: # (DOCS_END)`
     );
 
