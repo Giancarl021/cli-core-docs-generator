@@ -119,7 +119,9 @@ function createRefs(
     const items: string[] = [];
     for (const commandName in descriptor) {
         const relativePath = relative(
-            context.constants.outputDir.main,
+            context.variables.depth === 0
+                ? context.constants.outputDir.main
+                : context.constants.outputDir.auxiliary,
             `${
                 context.constants.outputDir.auxiliary
             }/${context.variables.commandChain.join('-')}-${commandName}.md`
